@@ -229,9 +229,6 @@ open class RTMPStream: NetStream {
             case .playing:
                 mixer.stopPlaying()
             case .publishing:
-                #if os(iOS)
-                    mixer.videoIO.screen?.stopRunning()
-                #endif
                 mixer.audioIO.encoder.delegate = nil
                 mixer.videoIO.encoder.delegate = nil
                 mixer.audioIO.encoder.stopRunning()
@@ -253,9 +250,6 @@ open class RTMPStream: NetStream {
             case .publish:
                 muxer.dispose()
                 muxer.delegate = self
-                #if os(iOS)
-                    mixer.videoIO.screen?.startRunning()
-                #endif
                 mixer.audioIO.encoder.delegate = muxer
                 mixer.videoIO.encoder.delegate = muxer
                 sampler?.delegate = muxer

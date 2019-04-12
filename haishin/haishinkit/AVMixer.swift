@@ -26,15 +26,9 @@ public class AVMixer: NSObject {
         set { videoIO.fps = newValue }
     }
 
-    @objc var continuousExposure: Bool {
-        get { return videoIO.continuousExposure }
-        set { videoIO.continuousExposure = newValue }
-    }
+    
 
-    @objc var continuousAutofocus: Bool {
-        get { return videoIO.continuousAutofocus }
-        set { videoIO.continuousAutofocus = newValue }
-    }
+   
 
     @objc var sessionPreset: AVCaptureSession.Preset = .default {
         didSet {
@@ -98,7 +92,7 @@ public class AVMixer: NSObject {
 #endif
         _audioIO?.dispose()
         _audioIO = nil
-        _videoIO?.dispose()
+        //_videoIO?.dispose()
         _videoIO = nil
     }
 }

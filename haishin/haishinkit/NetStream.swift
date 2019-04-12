@@ -29,14 +29,14 @@ open class NetStream: NSObject {
 
     open var metadata: [String: Any?] = [: ]
 
-    open var context: CIContext? {
-        get {
-            return mixer.videoIO.context
-        }
-        set {
-            mixer.videoIO.context = newValue
-        }
-    }
+//    open var context: CIContext? {
+//        get {
+//            return mixer.videoIO.context
+//        }
+//        set {
+//            mixer.videoIO.context = newValue
+//        }
+//    }
 
 #if os(iOS) || os(macOS)
     open var torch: Bool {
@@ -134,32 +134,7 @@ open class NetStream: NSObject {
         }
     }
 
-#if os(iOS) || os(macOS)
-    open func attachCamera(_ camera: AVCaptureDevice?, onError: ((_ error: NSError) -> Void)? = nil) {
-        lockQueue.async {
-            do {
-                try self.mixer.videoIO.attachCamera(camera)
-            } catch let error as NSError {
-                onError?(error)
-            }
-        }
-    }
 
-    open func attachAudio(_ audio: AVCaptureDevice?, automaticallyConfiguresApplicationAudioSession: Bool = false, onError: ((_ error: NSError) -> Void)? = nil) {
-        lockQueue.async {
-            do {
-                try self.mixer.audioIO.attachAudio(audio, automaticallyConfiguresApplicationAudioSession: automaticallyConfiguresApplicationAudioSession)
-            } catch let error as NSError {
-                onError?(error)
-            }
-        }
-    }
-
-    open func setPointOfInterest(_ focus: CGPoint, exposure: CGPoint) {
-        mixer.videoIO.focusPointOfInterest = focus
-        mixer.videoIO.exposurePointOfInterest = exposure
-    }
-#endif
 
     open func appendSampleBuffer(_ sampleBuffer: CMSampleBuffer, withType: AVMediaType, options: [NSObject: AnyObject]? = nil) {
         switch withType {
@@ -175,19 +150,6 @@ open class NetStream: NSObject {
             break
         }
     }
-
-    open func registerEffect(video effect: VisualEffect) -> Bool {
-        return mixer.videoIO.lockQueue.sync {
-            self.mixer.videoIO.registerEffect(effect)
-        }
-    }
-
-    open func unregisterEffect(video effect: VisualEffect) -> Bool {
-        return mixer.videoIO.lockQueue.sync {
-            self.mixer.videoIO.unregisterEffect(effect)
-        }
-    }
-
     open func dispose() {
         lockQueue.async {
             self.mixer.dispose()
