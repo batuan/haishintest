@@ -1,0 +1,2 @@
+# haishintest
+clone haishinkit
